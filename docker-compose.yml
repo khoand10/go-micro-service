@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:8.0.32
+    restart: always
+    cap_add:
+      - ALL
+    volumes:
+      - ./mysql_data/:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=go-ms
+      - MYSQL_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=123456
+    ports:
+      - '3306:3306'
+    container_name: go-ms-mysql
+    networks:
+      - go-ms
+
+networks:
+  go-ms:
