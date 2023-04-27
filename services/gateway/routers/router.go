@@ -2,9 +2,10 @@ package routers
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"go-micro-service/services/gateway/config"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 type RestServer struct {
@@ -22,6 +23,8 @@ func Init(restServer *RestServer) error {
 		})
 	})
 
+	InitAuthRouter(api.Group("/auth"))
+
 	port := getPort(restServer)
 	err := restServer.Engine.Run(port)
 	if err != nil {
@@ -35,18 +38,6 @@ func getAPIPrefix(server *RestServer) string {
 	return fmt.Sprintf("/api%s", apiVersion)
 }
 
-func getAPIVersion(server *RestServer) string {
-	return fmt.Sprintf("/%s", server.Config.RestAPIVersion)
-}
-
 func getPort(server *RestServer) string {
 	return fmt.Sprintf(":%d", server.Config.RestPort)
-}
-
-// TestHandler
-func ping(c *gin.Context) error {
-	//return c.JSON(http.StatusOK, gin.H{
-	//	"message": "pong",
-	//})
-	return nil
 }
