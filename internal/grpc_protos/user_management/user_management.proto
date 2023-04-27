@@ -2,7 +2,7 @@ syntax = "proto3";
 
 option go_package = "/protos";
 
-package user_management;
+//package user_management;
 
 service UserManagement {
   // auth
