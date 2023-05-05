@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"go-micro-service/services/user_management/config"
 	"go-micro-service/services/user_management/handler"
+	"go-micro-service/services/user_management/infra/mysql"
+	"go-micro-service/services/user_management/migration/schema"
+	"go-micro-service/services/user_management/migration/seed_data"
 	pb "go-micro-service/services/user_management/protos"
 	"log"
 	"net"
@@ -13,18 +16,33 @@ import (
 
 func main() {
 	cfg := config.LoadConfig("./")
-	log.Println(cfg)
+
+	db, err := mysql.Connect(cfg)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	err = schema.Migrate(db)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	err = seed_data.Migrate(db)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	userRepository := mysql.NewUserRepositoryImpl(db)
+	server := handler.CreateServer(userRepository, cfg)
+
+	grpcServer := grpc.NewServer()
+	pb.RegisterUserManagementServer(grpcServer, server)
+	log.Printf("[INFO] start grpc server listening %d", cfg.UserManagementPort)
 
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", cfg.UserManagementPort))
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)
 	}
-
-	grpcServer := grpc.NewServer()
-	server := handler.CreateServer()
-
-	pb.RegisterUserManagementServer(grpcServer, server)
-	log.Printf("[INFO] start http server listening %d", cfg.UserManagementPort)
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

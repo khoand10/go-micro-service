@@ -7,8 +7,11 @@ import (
 )
 
 type Config struct {
-	UserManagementPort int    `mapstructure:"USER_MANAGEMENT_PORT"`
-	UserManagementURI  string `mapstructure:"USER_MANAGEMENT_SERVICE_URI"`
+	UserManagementPort         int    `mapstructure:"USER_MANAGEMENT_PORT"`
+	UserManagementURI          string `mapstructure:"USER_MANAGEMENT_SERVICE_URI"`
+	JwtSecretKey               string `mapstructure:"JWT_SECRET_KEY"`
+	TokenExpirationHour        int    `mapstructure:"TOKEN_EXPIRATION_HOUR"`
+	RefreshTokenExpirationHour int    `mapstructure:"REFRESH_TOKEN_EXPIRATION_HOUR"`
 }
 
 func LoadConfig(path string) *Config {

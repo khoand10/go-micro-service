@@ -34,10 +34,10 @@ func Init(restServer *RestServer) error {
 }
 
 func getAPIPrefix(server *RestServer) string {
-	apiVersion := fmt.Sprintf("/%s", server.Config.RestAPIVersion)
+	apiVersion := fmt.Sprintf("/%s", server.Config.GatewayRestAPIVersion)
 	return fmt.Sprintf("/api%s", apiVersion)
 }
 
 func getPort(server *RestServer) string {
-	return fmt.Sprintf(":%d", server.Config.RestPort)
+	return fmt.Sprintf(":%d", server.Config.GatewayRestPort)
 }

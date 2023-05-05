@@ -10,7 +10,3 @@ generate_proto_user_management:
 		--go_out=./services/user_management/protos --go_opt=paths=source_relative \
         --go-grpc_out=./services/user_management/protos --go-grpc_opt=paths=source_relative \
         ./internal/grpc_protos/user_management/user_management.proto
-
-#protoc --go_out=./services/gateway/protos/account_management --go_opt=paths=source_relative \
-#	--go-grpc_out=./services/gateway/protos/account_management --go-grpc_opt=paths=source_relative \
-#	--proto_path=./internal/api/grpc/ account_management.proto

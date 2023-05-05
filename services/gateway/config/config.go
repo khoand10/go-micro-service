@@ -7,8 +7,10 @@ import (
 )
 
 type Config struct {
-	RestPort       int    `mapstructure:"REST_PORT"`
-	RestAPIVersion string `mapstructure:"API_VERSION"`
+	GatewayRestPort       int    `mapstructure:"GATEWAY_REST_PORT"`
+	GatewayRestAPIVersion string `mapstructure:"GATEWAY_REST_API_VERSION"`
+	UserManagementURI     string `mapstructure:"USER_MANAGEMENT_SERVICE_URI"`
+	SecretKey             string `mapstructure:"SECRET_KEY"`
 	//AllowOrigins   string `mapstructure:"CORS_ALLOW_ORIGINS_GATEWAY, required=true"`
 	//RestPort       int    `mapstructure:"REST_PORT"`
 	//RestAPIVersion string `mapstructure:"API_VERSION"`

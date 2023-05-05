@@ -2,19 +2,23 @@ syntax = "proto3";
 
 option go_package = "/protos";
 
-//package user_management;
+import "google/api/annotations.proto";
+
 
 service UserManagement {
-  // auth
-  rpc Login (LoginRequest) returns (LoginResponse) {}
+  rpc Login (LoginRequest) returns (LoginResponse) {
+    option (google.api.http) = {
+           post: "/v1/login"
+           body: "*"
+    };
+  }
 }
 
-// Authentication
 message LoginRequest {
   string email    = 1;
   string password = 2;
 }
 message LoginResponse {
   string token = 1;
-  int64 userId = 2;
+  string refresh_token = 2;
 }
