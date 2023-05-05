@@ -26,7 +26,6 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserManagementClient interface {
-	// auth
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 }
 
@@ -51,7 +50,6 @@ func (c *userManagementClient) Login(ctx context.Context, in *LoginRequest, opts
 // All implementations must embed UnimplementedUserManagementServer
 // for forward compatibility
 type UserManagementServer interface {
-	// auth
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	mustEmbedUnimplementedUserManagementServer()
 }
