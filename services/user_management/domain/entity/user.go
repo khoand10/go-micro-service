@@ -1,7 +1,9 @@
 package entity
 
+import "go-micro-service/pkg/base_entity"
+
 type User struct {
-	ID       uint
+	base_entity.Model
 	Email    string
 	Name     string
 	Password string

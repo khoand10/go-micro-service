@@ -15,19 +15,21 @@ import (
 func main() {
 	cfg := config.LoadConfig("./")
 
-	//engine := gin.New()
-	//app := &routers.RestServer{
-	//	Engine: engine,
-	//	Config: cfg,
-	//}
+	/*
+		engine := gin.New()
+		app := &routers.RestServer{
+			Engine: engine,
+			Config: cfg,
+		}
 
-	//go func() {
-	//err := routers.Init(app)
-	//if err != nil {
-	//	log.Fatalln(err)
-	//	return
-	//}
-	//}()
+		go func() {
+		err := routers.Init(app)
+		if err != nil {
+			log.Fatalln(err)
+			return
+		}
+		}()
+	*/
 
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
@@ -38,9 +40,10 @@ func main() {
 	httpServerAddress := fmt.Sprintf(":%d", cfg.GatewayRestPort)
 	err := createUserManagementClient(ctx, mux, cfg)
 	if err != nil {
-		log.Fatalln(err)
+		log.Fatalf("[ERROR] Failed to connect to User Management service: %v", err)
 	}
 
+	log.Printf("[INFO] start http server listening %d", cfg.GatewayRestPort)
 	err = http.ListenAndServe(httpServerAddress, mux)
 	if err != nil {
 		log.Fatalln(err)

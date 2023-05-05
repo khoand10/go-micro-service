@@ -1,6 +1,11 @@
 ## Todo list
-- [ ] connect database 
-- [ ] migrate table
-- [ ] create default data
+- [x] connect database 
+- [x] migrate table
+- [x] create default data
 - [ ] create docker file
-- [ ] gateway call user management 
+- [x] gateway service
+- [x] login, register
+- [ ] authentication middleware
+- [ ] product service
+- [ ] product view service
+- [ ] order service

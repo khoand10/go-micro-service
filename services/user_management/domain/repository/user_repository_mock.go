@@ -7,6 +7,11 @@ import (
 
 type fakeDBRepositoryImpl struct{}
 
+func (f fakeDBRepositoryImpl) Create(user *entity.User) (*entity.User, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
 func (f fakeDBRepositoryImpl) GetByEmail(email string) (*entity.User, error) {
 	fixUserEmail := &entity.User{
 		Email:    "khoand@gmail.com",

@@ -12,6 +12,12 @@ service UserManagement {
            body: "*"
     };
   }
+  rpc Register (RegisterRequest) returns (RegisterResponse) {
+    option (google.api.http) = {
+      post: "/v1/register"
+      body: "*"
+    };
+  }
 }
 
 message LoginRequest {
@@ -21,4 +27,15 @@ message LoginRequest {
 message LoginResponse {
   string token = 1;
   string refresh_token = 2;
+}
+
+message RegisterRequest {
+  string name     = 1;
+  string email    = 2;
+  string password = 3;
+}
+
+message RegisterResponse {
+  uint64 id       = 1;
+  string email    = 2;
 }

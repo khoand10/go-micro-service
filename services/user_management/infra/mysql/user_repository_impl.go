@@ -24,3 +24,11 @@ func (u userRepositoryImpl) GetByEmail(email string) (*entity.User, error) {
 	}
 	return &user, nil
 }
+
+func (u userRepositoryImpl) Create(user *entity.User) (*entity.User, error) {
+	err := u.db.Create(user).Error
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
+}
