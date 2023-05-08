@@ -9,7 +9,7 @@ import (
 
 type (
 	Claims struct {
-		UserId int64
+		UserId uint64
 		Email  string
 		Name   string
 	}

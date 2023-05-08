@@ -12,9 +12,17 @@ service UserManagement {
            body: "*"
     };
   }
+
   rpc Register (RegisterRequest) returns (RegisterResponse) {
     option (google.api.http) = {
       post: "/v1/register"
+      body: "*"
+    };
+  }
+
+  rpc RefreshToken (RefreshTokenRequest) returns (RefreshTokenResponse) {
+    option (google.api.http) = {
+      post: "/v1/refresh-token"
       body: "*"
     };
   }
@@ -38,4 +46,12 @@ message RegisterRequest {
 message RegisterResponse {
   uint64 id       = 1;
   string email    = 2;
+}
+
+message RefreshTokenRequest {
+  string refresh_token = 1;
+}
+message RefreshTokenResponse {
+  string token = 1;
+  string refresh_token = 2;
 }

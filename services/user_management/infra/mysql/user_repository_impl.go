@@ -32,3 +32,12 @@ func (u userRepositoryImpl) Create(user *entity.User) (*entity.User, error) {
 	}
 	return user, nil
 }
+
+func (u userRepositoryImpl) GetByID(id uint64) (*entity.User, error) {
+	var user entity.User
+	err := u.db.First(&user).Where("id = ?", id).Error
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
+}

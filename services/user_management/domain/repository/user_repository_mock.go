@@ -7,6 +7,11 @@ import (
 
 type fakeDBRepositoryImpl struct{}
 
+func (f fakeDBRepositoryImpl) GetByID(id uint64) (*entity.User, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
 func (f fakeDBRepositoryImpl) Create(user *entity.User) (*entity.User, error) {
 	//TODO implement me
 	panic("implement me")

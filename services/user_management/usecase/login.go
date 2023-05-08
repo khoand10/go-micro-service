@@ -24,8 +24,14 @@ func Login(userRepository repository.UserRepository, input *protos.LoginRequest,
 		return nil, err
 	}
 
+	refreshToken, err := jwt.CreateJWT(userFound, cfg.JwtSecretKey, cfg.RefreshTokenExpirationHour)
+	if err != nil {
+		return nil, err
+	}
+
 	res := &protos.LoginResponse{
-		Token: token,
+		Token:        token,
+		RefreshToken: refreshToken,
 	}
 	return res, nil
 }
