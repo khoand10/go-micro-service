@@ -5,6 +5,7 @@ import (
 	"go-micro-service/services/user_management/config"
 	"go-micro-service/services/user_management/handler"
 	"go-micro-service/services/user_management/infra/mysql"
+	"go-micro-service/services/user_management/middlaware"
 	"go-micro-service/services/user_management/migration/schema"
 	"go-micro-service/services/user_management/migration/seed_data"
 	pb "go-micro-service/services/user_management/protos"
@@ -35,7 +36,10 @@ func main() {
 	userRepository := mysql.NewUserRepositoryImpl(db)
 	server := handler.CreateServer(userRepository, cfg)
 
-	grpcServer := grpc.NewServer()
+	grpcServer := grpc.NewServer(
+		grpc.ChainUnaryInterceptor(
+			middlaware.JWTAUth(cfg),
+		))
 	pb.RegisterUserManagementServer(grpcServer, server)
 	log.Printf("[INFO] start grpc server listening %d", cfg.UserManagementPort)
 

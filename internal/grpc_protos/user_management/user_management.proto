@@ -26,6 +26,18 @@ service UserManagement {
       body: "*"
     };
   }
+
+//  rpc GetUserProfile (GetUserProfileRequest) returns (GetUserProfileResponse) {
+//    option (google.api.http) = {
+//      get: "/v1/users/{user_id}"
+//    };
+//  }
+
+  rpc GetUserProfile (GetUserProfileRequest) returns (GetUserProfileResponse) {
+    option (google.api.http) = {
+      get: "/v1/profile"
+    };
+  }
 }
 
 message LoginRequest {
@@ -42,7 +54,6 @@ message RegisterRequest {
   string email    = 2;
   string password = 3;
 }
-
 message RegisterResponse {
   uint64 id       = 1;
   string email    = 2;
@@ -54,4 +65,13 @@ message RefreshTokenRequest {
 message RefreshTokenResponse {
   string token = 1;
   string refresh_token = 2;
+}
+
+message GetUserProfileRequest {
+  uint64 UserId = 1;
+}
+message GetUserProfileResponse {
+  uint64 id = 1;
+  string email = 2;
+  string name = 3;
 }
