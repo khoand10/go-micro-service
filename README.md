@@ -20,8 +20,7 @@ go > 1.18
 ### Installation
 * start
 ```shell
-go mod tidy
-docker-compose up -d
+docker-compose up --build
 ```
 
 
