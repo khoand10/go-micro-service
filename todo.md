@@ -2,10 +2,10 @@
 - [x] connect database 
 - [x] migrate table
 - [x] create default data
-- [ ] create docker file
+- [x] create docker file
 - [x] gateway service
 - [x] login, register
-- [ ] authentication middleware
+- [x] authentication middleware
 - [ ] product service
 - [ ] product view service
 - [ ] order service

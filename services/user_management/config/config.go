@@ -12,14 +12,17 @@ type Config struct {
 	JwtSecretKey               string `mapstructure:"JWT_SECRET_KEY"`
 	TokenExpirationHour        int    `mapstructure:"TOKEN_EXPIRATION_HOUR"`
 	RefreshTokenExpirationHour int    `mapstructure:"REFRESH_TOKEN_EXPIRATION_HOUR"`
+	MysqlDSN                   string `mapstructure:"MYSQL_DSN"`
 }
 
 func LoadConfig(path string) *Config {
 	var cfg Config
 
-	viper.AddConfigPath(path)
-	viper.SetConfigType("env")
-	viper.SetConfigName("app")
+	if path != "" {
+		viper.AddConfigPath(path)
+		viper.SetConfigType("env")
+		viper.SetConfigName("app")
+	}
 	viper.AutomaticEnv()
 
 	err := viper.ReadInConfig()

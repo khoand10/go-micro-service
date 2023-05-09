@@ -11,11 +11,15 @@ import (
 	pb "go-micro-service/services/user_management/protos"
 	"log"
 	"net"
+	"time"
 
 	"google.golang.org/grpc"
 )
 
 func main() {
+	//TODO fake wait mysql start, implement wait for mysql started
+	time.Sleep(5 * time.Second)
+
 	cfg := config.LoadConfig("./")
 
 	db, err := mysql.Connect(cfg)

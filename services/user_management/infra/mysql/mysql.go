@@ -7,6 +7,6 @@ import (
 )
 
 func Connect(cfg *config.Config) (*gorm.DB, error) {
-	dsn := "root:123456@tcp(127.0.0.1:3306)/go-ms?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := cfg.MysqlDSN
 	return gorm.Open(mysql.Open(dsn), &gorm.Config{})
 }

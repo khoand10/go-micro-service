@@ -1,5 +1,31 @@
 version: '3.8'
 services:
+  gateway:
+    build:
+      context: .
+      dockerfile: services/gateway/Dockerfile
+    container_name: gateway
+    env_file:
+      - .env.docker
+    ports:
+      - "8080:8080"
+    depends_on:
+      - user_management
+    command: [ "./app" ]
+    networks:
+      - go-ms
+  user_management:
+    build:
+      context: .
+      dockerfile: services/user_management/Dockerfile
+    container_name: user_management
+    env_file:
+      - .env.docker
+    depends_on:
+      - mysql
+    command: ["./app"]
+    networks:
+      - go-ms
   mysql:
     image: mysql:8.0.32
     restart: always

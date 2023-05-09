@@ -7,13 +7,13 @@ ENV GO111MODULE=on \
 
 WORKDIR /app
 COPY go.mod go.sum ./
-COPY ./services/gateway /app/services/gateway
+COPY ./services/user_management /app/services/user_management
 COPY ./pkg /app/pkg
 COPY ./app.env /app
 
 RUN go mod tidy
 RUN go mod download
 
-RUN go build -o app /app/services/gateway/cmd/main.go
+RUN go build -o app /app/services/user_management/cmd/main.go
 
-EXPOSE 8080
+EXPOSE 3007
