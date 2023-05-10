@@ -42,6 +42,7 @@ func main() {
 
 	grpcServer := grpc.NewServer(
 		grpc.ChainUnaryInterceptor(
+			middleware.Recovery(),
 			middleware.JWTAUth(cfg),
 		))
 	pb.RegisterUserManagementServer(grpcServer, server)
