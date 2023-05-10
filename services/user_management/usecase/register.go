@@ -2,14 +2,25 @@ package usecase
 
 import (
 	"errors"
-	"go-micro-service/services/user_management/config"
 	"go-micro-service/services/user_management/domain/entity"
 	"go-micro-service/services/user_management/domain/repository"
 	"go-micro-service/services/user_management/pkg/utils"
-	"go-micro-service/services/user_management/protos"
 )
 
-func Register(userRepository repository.UserRepository, input *protos.RegisterRequest, cfg *config.Config) (*protos.RegisterResponse, error) {
+type (
+	RegisterRequest struct {
+		Name     string
+		Email    string
+		Password string
+	}
+
+	RegisterResponse struct {
+		Id    uint64
+		Email string
+	}
+)
+
+func Register(userRepository repository.UserRepository, input *RegisterRequest) (*RegisterResponse, error) {
 	userFound, _ := userRepository.GetByEmail(input.Email)
 	if userFound.ID != 0 {
 		return nil, errors.New("email already used")
@@ -25,7 +36,7 @@ func Register(userRepository repository.UserRepository, input *protos.RegisterRe
 		return nil, err
 	}
 
-	res := &protos.RegisterResponse{
+	res := &RegisterResponse{
 		Id:    user.ID,
 		Email: user.Email,
 	}

@@ -5,10 +5,20 @@ import (
 	"go-micro-service/services/user_management/config"
 	"go-micro-service/services/user_management/domain/repository"
 	"go-micro-service/services/user_management/pkg/jwt"
-	"go-micro-service/services/user_management/protos"
 )
 
-func RefreshToken(userRepository repository.UserRepository, input *protos.RefreshTokenRequest, cfg *config.Config) (*protos.RefreshTokenResponse, error) {
+type (
+	RefreshTokenRequest struct {
+		RefreshToken string
+	}
+
+	RefreshTokenResponse struct {
+		Token        string
+		RefreshToken string
+	}
+)
+
+func RefreshToken(userRepository repository.UserRepository, input *RefreshTokenRequest, cfg *config.Config) (*RefreshTokenResponse, error) {
 	claims, err := jwt.VerifyToken(input.RefreshToken, cfg.JwtSecretKey)
 	if err != nil {
 		return nil, err
@@ -24,7 +34,7 @@ func RefreshToken(userRepository repository.UserRepository, input *protos.Refres
 		return nil, err
 	}
 
-	res := &protos.RefreshTokenResponse{
+	res := &RefreshTokenResponse{
 		Token:        newToken,
 		RefreshToken: input.RefreshToken,
 	}

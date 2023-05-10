@@ -35,7 +35,7 @@ func (u userRepositoryImpl) Create(user *entity.User) (*entity.User, error) {
 
 func (u userRepositoryImpl) GetByID(id uint64) (*entity.User, error) {
 	var user entity.User
-	err := u.db.First(&user).Where("id = ?", id).Error
+	err := u.db.Where("id = ?", id).First(&user).Error
 	if err != nil {
 		return nil, err
 	}

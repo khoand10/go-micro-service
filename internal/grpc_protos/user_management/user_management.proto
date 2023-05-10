@@ -27,15 +27,15 @@ service UserManagement {
     };
   }
 
-//  rpc GetUserProfile (GetUserProfileRequest) returns (GetUserProfileResponse) {
-//    option (google.api.http) = {
-//      get: "/v1/users/{user_id}"
-//    };
-//  }
-
   rpc GetUserProfile (GetUserProfileRequest) returns (GetUserProfileResponse) {
     option (google.api.http) = {
       get: "/v1/profile"
+    };
+  }
+
+  rpc GetUser (GetUserRequest) returns (GetUserResponse) {
+    option (google.api.http) = {
+      get: "/v1/users/{user_id}"
     };
   }
 }
@@ -71,6 +71,15 @@ message GetUserProfileRequest {
   uint64 UserId = 1;
 }
 message GetUserProfileResponse {
+  uint64 id = 1;
+  string email = 2;
+  string name = 3;
+}
+
+message GetUserRequest {
+  uint64 user_id = 1;
+}
+message GetUserResponse {
   uint64 id = 1;
   string email = 2;
   string name = 3;

@@ -23,6 +23,7 @@ const (
 	UserManagement_Register_FullMethodName       = "/UserManagement/Register"
 	UserManagement_RefreshToken_FullMethodName   = "/UserManagement/RefreshToken"
 	UserManagement_GetUserProfile_FullMethodName = "/UserManagement/GetUserProfile"
+	UserManagement_GetUser_FullMethodName        = "/UserManagement/GetUser"
 )
 
 // UserManagementClient is the client API for UserManagement service.
@@ -33,6 +34,7 @@ type UserManagementClient interface {
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
 	RefreshToken(ctx context.Context, in *RefreshTokenRequest, opts ...grpc.CallOption) (*RefreshTokenResponse, error)
 	GetUserProfile(ctx context.Context, in *GetUserProfileRequest, opts ...grpc.CallOption) (*GetUserProfileResponse, error)
+	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error)
 }
 
 type userManagementClient struct {
@@ -79,6 +81,15 @@ func (c *userManagementClient) GetUserProfile(ctx context.Context, in *GetUserPr
 	return out, nil
 }
 
+func (c *userManagementClient) GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error) {
+	out := new(GetUserResponse)
+	err := c.cc.Invoke(ctx, UserManagement_GetUser_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserManagementServer is the server API for UserManagement service.
 // All implementations must embed UnimplementedUserManagementServer
 // for forward compatibility
@@ -87,6 +98,7 @@ type UserManagementServer interface {
 	Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
 	RefreshToken(context.Context, *RefreshTokenRequest) (*RefreshTokenResponse, error)
 	GetUserProfile(context.Context, *GetUserProfileRequest) (*GetUserProfileResponse, error)
+	GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error)
 	mustEmbedUnimplementedUserManagementServer()
 }
 
@@ -105,6 +117,9 @@ func (UnimplementedUserManagementServer) RefreshToken(context.Context, *RefreshT
 }
 func (UnimplementedUserManagementServer) GetUserProfile(context.Context, *GetUserProfileRequest) (*GetUserProfileResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserProfile not implemented")
+}
+func (UnimplementedUserManagementServer) GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
 }
 func (UnimplementedUserManagementServer) mustEmbedUnimplementedUserManagementServer() {}
 
@@ -191,6 +206,24 @@ func _UserManagement_GetUserProfile_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserManagement_GetUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserManagementServer).GetUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserManagement_GetUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserManagementServer).GetUser(ctx, req.(*GetUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserManagement_ServiceDesc is the grpc.ServiceDesc for UserManagement service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -213,6 +246,10 @@ var UserManagement_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserProfile",
 			Handler:    _UserManagement_GetUserProfile_Handler,
+		},
+		{
+			MethodName: "GetUser",
+			Handler:    _UserManagement_GetUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

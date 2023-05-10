@@ -6,10 +6,21 @@ import (
 	"go-micro-service/services/user_management/domain/repository"
 	"go-micro-service/services/user_management/pkg/jwt"
 	"go-micro-service/services/user_management/pkg/utils"
-	"go-micro-service/services/user_management/protos"
 )
 
-func Login(userRepository repository.UserRepository, input *protos.LoginRequest, cfg *config.Config) (*protos.LoginResponse, error) {
+type (
+	LoginRequest struct {
+		Email    string
+		Password string
+	}
+
+	LoginResponse struct {
+		Token        string
+		RefreshToken string
+	}
+)
+
+func Login(userRepository repository.UserRepository, input *LoginRequest, cfg *config.Config) (*LoginResponse, error) {
 	userFound, err := userRepository.GetByEmail(input.Email)
 	if err != nil {
 		return nil, err
@@ -29,7 +40,7 @@ func Login(userRepository repository.UserRepository, input *protos.LoginRequest,
 		return nil, err
 	}
 
-	res := &protos.LoginResponse{
+	res := &LoginResponse{
 		Token:        token,
 		RefreshToken: refreshToken,
 	}

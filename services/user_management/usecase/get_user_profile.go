@@ -1,12 +1,11 @@
 package usecase
 
 import (
-	"go-micro-service/services/user_management/config"
 	"go-micro-service/services/user_management/domain/repository"
 	"go-micro-service/services/user_management/protos"
 )
 
-func GetUserProfile(userRepository repository.UserRepository, input *protos.GetUserProfileRequest, cfg *config.Config) (*protos.GetUserProfileResponse, error) {
+func GetUserProfile(userRepository repository.UserRepository, input *protos.GetUserProfileRequest) (*protos.GetUserProfileResponse, error) {
 	userFound, err := userRepository.GetByID(input.UserId)
 	if err != nil {
 		return nil, err
